@@ -1,6 +1,6 @@
 const { createCanvas, loadImage } = require("canvas");
 const { writeFileSync } = require("fs");
-const { axios } = require("axios");
+const axios = require("axios");
 const { NeynarAPIClient } = require("@neynar/nodejs-sdk");
 const express = require("express");
 const bodyParser = require("body-parser");
