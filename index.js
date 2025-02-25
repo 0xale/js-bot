@@ -10,12 +10,12 @@ const crypto = require("crypto");
 const { ethers } = require("ethers");
 const EarnkitABI = require("./Earnkit.json");
 const EarnkitToken = require("./EarnkitToken.json");
-const {
-  triggerFollowAirdrop,
-  triggerYapAirdrop,
-  registerToken,
-  replyNeynarCast,
-} = require("./coinviseApis.js");
+// const {
+//   triggerFollowAirdrop,
+//   triggerYapAirdrop,
+//   registerToken,
+//   replyNeynarCast,
+// } = require("./coinviseApis.js");
 
 dotenv.config();
 
