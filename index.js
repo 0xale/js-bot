@@ -456,7 +456,7 @@ async function handleEvent(event) {
     const hash = event.data.hash;
 
     const ticker = generateTickerFromHash(hash);
-    const tokenName = `cast by @${finalUsername}_${ticker}`;
+    const tokenName = `cast by ${finalUsername}_${ticker}`;
 
     const tokenSymbol = ticker;
     const description = finalText;
