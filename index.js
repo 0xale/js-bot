@@ -452,11 +452,11 @@ async function handleEvent(event) {
     const generateImage = await generateTweetImage(castData);
     console.log("Image generated:", generateImage);
 
-    const username = event.data.author.username;
+    // const username = event.data.author.username;
     const hash = event.data.hash;
 
     const ticker = generateTickerFromHash(hash);
-    const tokenName = `cast by @${username}_${ticker}`;
+    const tokenName = `cast by @${finalUsername}_${ticker}`;
 
     const tokenSymbol = ticker;
     const description = finalText;
@@ -590,8 +590,7 @@ async function handleEvent(event) {
     // );
     // console.log(yapSlug);
 
-    const message = `🚨 Your cast is now tokenized we deployed the token: ${tokenName}.
-      \n\nToken address: https://basescan.org/address/${tokenAddress}\n\nView on Coinvise:https://coinvise.ai/token/${tokenAddress}\n\n${tokenName} airdrops are now claimable below in this thread!`;
+    const message = `🎉 Your cast is now tokenized: ${tokenName}.\n\nToken address: https://basescan.org/address/${tokenAddress}\n\nView on Coinvise:https://coinvise.ai/token/${tokenAddress}\n\n${tokenName}`;
 
     const tokenFrame = `https://frames.coinvise.ai/token/${tokenAddress}`;
 
