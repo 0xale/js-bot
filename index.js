@@ -1,4 +1,4 @@
-const { createCanvas, loadImage } = require("canvas");
+const { registerFont, createCanvas, loadImage } = require("canvas");
 const { writeFileSync } = require("fs");
 const axios = require("axios");
 const { NeynarAPIClient } = require("@neynar/nodejs-sdk");
@@ -616,26 +616,26 @@ async function generateTweetImage(data) {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext("2d");
 
+  registerFont("./Arial.ttf", { family: "CustomFont" });
+
   ctx.fillStyle = "#ffffff";
   ctx.fillRect(0, 0, width, height);
 
   const profileImage = await loadImage(data.profilePic);
   ctx.drawImage(profileImage, 20, 20, 80, 80);
 
-  ctx.fillStyle = "#000";
-  ctx.font = "bold 24px Arial";
   ctx.fillText(data.displayName, 120, 50);
 
   ctx.fillStyle = "#555";
-  ctx.font = "18px Arial";
+  ctx.font = "18px CustomFont";
   ctx.fillText(`@${data.username}`, 120, 80);
 
   ctx.fillStyle = "#000";
-  ctx.font = "20px Arial";
+  ctx.font = "20px CustomFont";
   wrapText(ctx, data.text, 20, 140, width - 40, 28);
 
   ctx.fillStyle = "#777";
-  ctx.font = "16px Arial";
+  ctx.font = "16px CustomFont";
   ctx.fillText(new Date(data.timestamp).toLocaleString(), 20, height - 20);
 
   const imagePath = "Cast.png";
