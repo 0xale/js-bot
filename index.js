@@ -438,166 +438,166 @@ async function handleEvent(event) {
     console.log("Token Name:", tokenName);
     console.log("Token Symbol:", tokenSymbol);
     console.log("Description:", description);
-    // const provider = new ethers.JsonRpcProvider(PROVIDER_URL);
-    // if (!PRIVATE_KEY) {
-    //   throw new Error("Private key is not defined");
-    // }
-    // const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
-    // const earnkit = new ethers.Contract(
-    //   EARNKIT_CONTRACT,
-    //   EarnkitABI.abi,
-    //   wallet
-    // );
+    const provider = new ethers.JsonRpcProvider(PROVIDER_URL);
+    if (!PRIVATE_KEY) {
+      throw new Error("Private key is not defined");
+    }
+    const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+    const earnkit = new ethers.Contract(
+      EARNKIT_CONTRACT,
+      EarnkitABI.abi,
+      wallet
+    );
 
-    // const totalSupply = ethers.parseUnits("100000000000", 18);
-    // const fid = 710451;
-    // const castHash = "710451";
+    const totalSupply = ethers.parseUnits("100000000000", 18);
+    const fid = 710451;
+    const castHash = "710451";
 
-    // const poolConfig = {
-    //   pairedToken: WETH,
-    //   devBuyFee: FEE,
-    //   tick: TICK,
-    // };
+    const poolConfig = {
+      pairedToken: WETH,
+      devBuyFee: FEE,
+      tick: TICK,
+    };
 
-    // const salt = await generateSaltForAddress(
-    //   tokenName,
-    //   tokenSymbol,
-    //   totalSupply,
-    //   fid,
-    //   generateImage,
-    //   castHash,
-    //   poolConfig,
-    //   wallet.address,
-    //   EARNKIT_CONTRACT
-    // );
-    // const campaigns = [
-    //   {
-    //     maxClaims: 5000,
-    //     amountPerClaim: ethers.parseUnits("500000", 18),
-    //     maxSponsoredClaims: 0,
-    //   },
-    //   {
-    //     maxClaims: 5000,
-    //     amountPerClaim: ethers.parseUnits("500000", 18),
-    //     maxSponsoredClaims: 0,
-    //   },
-    // ];
+    const salt = await generateSaltForAddress(
+      tokenName,
+      tokenSymbol,
+      totalSupply,
+      fid,
+      generateImage,
+      castHash,
+      poolConfig,
+      wallet.address,
+      EARNKIT_CONTRACT
+    );
+    const campaigns = [
+      {
+        maxClaims: 5000,
+        amountPerClaim: ethers.parseUnits("500000", 18),
+        maxSponsoredClaims: 0,
+      },
+      {
+        maxClaims: 5000,
+        amountPerClaim: ethers.parseUnits("500000", 18),
+        maxSponsoredClaims: 0,
+      },
+    ];
 
-    // const tx = await earnkit.deployTokenWithCampaigns(
-    //   tokenName,
-    //   tokenSymbol,
-    //   totalSupply,
-    //   FEE,
-    //   salt,
-    //   wallet.address,
-    //   fid,
-    //   generateImage,
-    //   castHash,
-    //   poolConfig,
-    //   campaigns,
-    //   5
-    // );
+    const tx = await earnkit.deployTokenWithCampaigns(
+      tokenName,
+      tokenSymbol,
+      totalSupply,
+      FEE,
+      salt,
+      wallet.address,
+      fid,
+      generateImage,
+      castHash,
+      poolConfig,
+      campaigns,
+      5
+    );
 
-    // console.log(
-    //   `Transaction sent for ${tokenName}. Waiting for confirmation...`
-    // );
-    // const receipt = await tx.wait();
-    // console.log(
-    //   `${tokenName} deployed successfully. Transaction Hash:`,
-    //   receipt.hash
-    // );
-    // const tokenAddress = receipt.logs[0]?.address;
-    // console.log("Token deployed at:", tokenAddress);
+    console.log(
+      `Transaction sent for ${tokenName}. Waiting for confirmation...`
+    );
+    const receipt = await tx.wait();
+    console.log(
+      `${tokenName} deployed successfully. Transaction Hash:`,
+      receipt.hash
+    );
+    const tokenAddress = receipt.logs[0]?.address;
+    console.log("Token deployed at:", tokenAddress);
 
-    // const filteredLogs = receipt.logs.filter(
-    //   (log) =>
-    //     log.topics[0] ===
-    //     "0xfc5b9d1c2c1134048e1792e3ae27d4eee04f460d341711c7088000d2ca218621"
-    // );
+    const filteredLogs = receipt.logs.filter(
+      (log) =>
+        log.topics[0] ===
+        "0xfc5b9d1c2c1134048e1792e3ae27d4eee04f460d341711c7088000d2ca218621"
+    );
 
-    // if (filteredLogs.length === 0) {
-    //   console.log("No logs found with the specified topic.");
-    //   return;
-    // }
-    // const campaignIds = filteredLogs.map((log) => parseInt(log.topics[2], 16));
+    if (filteredLogs.length === 0) {
+      console.log("No logs found with the specified topic.");
+      return;
+    }
+    const campaignIds = filteredLogs.map((log) => parseInt(log.topics[2], 16));
 
-    // if (campaignIds.length < 2) {
-    //   console.error("Insufficient campaign IDs found");
-    //   return;
-    // }
-    // const filteredLog = receipt.logs.find(
-    //   (log) => log.address.toLowerCase() === EARNKIT_CONTRACT.toLowerCase()
-    // );
-    // const positionId = BigInt(filteredLog.topics[2]).toString();
-    // console.log("Position ID:-------------", positionId);
+    if (campaignIds.length < 2) {
+      console.error("Insufficient campaign IDs found");
+      return;
+    }
+    const filteredLog = receipt.logs.find(
+      (log) => log.address.toLowerCase() === EARNKIT_CONTRACT.toLowerCase()
+    );
+    const positionId = BigInt(filteredLog.topics[2]).toString();
+    console.log("Position ID:-------------", positionId);
 
-    // const followCampaignId = campaignIds[1];
-    // const yapCampaignId = campaignIds[0];
+    const followCampaignId = campaignIds[1];
+    const yapCampaignId = campaignIds[0];
 
-    // console.log(`Follow Campaign ID: ${followCampaignId}`);
-    // console.log(`Yap Campaign ID: ${yapCampaignId}`);
+    console.log(`Follow Campaign ID: ${followCampaignId}`);
+    console.log(`Yap Campaign ID: ${yapCampaignId}`);
 
-    // await registerToken({
-    //   name: tokenName,
-    //   address: tokenAddress,
-    //   symbol: tokenSymbol,
-    //   decimals: 18,
-    //   tokenSupply: "100000000000",
-    //   slope: "null",
-    //   slopeDecimals: "null",
-    //   type: "ERC20",
-    //   description: description ?? `${tokenName} on Coinvise`,
-    //   imageUrl: generateImage,
-    //   lpLockerAddress: positionId,
-    // });
+    await registerToken({
+      name: tokenName,
+      address: tokenAddress,
+      symbol: tokenSymbol,
+      decimals: 18,
+      tokenSupply: "100000000000",
+      slope: "null",
+      slopeDecimals: "null",
+      type: "ERC20",
+      description: description ?? `${tokenName} on Coinvise`,
+      imageUrl: generateImage,
+      lpLockerAddress: positionId,
+    });
 
-    // const followSlug = await triggerFollowAirdrop(
-    //   receipt.hash,
-    //   tokenAddress,
-    //   generateImage,
-    //   tokenName
-    // );
-    // console.log(followSlug);
+    const followSlug = await triggerFollowAirdrop(
+      receipt.hash,
+      tokenAddress,
+      generateImage,
+      tokenName
+    );
+    console.log(followSlug);
 
-    // const yapSlug = await triggerYapAirdrop(
-    //   receipt.hash,
-    //   tokenAddress,
-    //   tokenName,
-    //   generateImage
-    // );
-    // console.log(yapSlug);
+    const yapSlug = await triggerYapAirdrop(
+      receipt.hash,
+      tokenAddress,
+      tokenName,
+      generateImage
+    );
+    console.log(yapSlug);
 
-    // const message = `🚨 Your cast is now tokenized we deployed the token: ${tokenName}.
-    //   \n\nToken address: https://basescan.org/address/${tokenAddress}\n\nView on Coinvise:https://coinvise.ai/token/${tokenAddress}\n\n${tokenName} airdrops are now claimable below in this thread!`;
+    const message = `🚨 Your cast is now tokenized we deployed the token: ${tokenName}.
+      \n\nToken address: https://basescan.org/address/${tokenAddress}\n\nView on Coinvise:https://coinvise.ai/token/${tokenAddress}\n\n${tokenName} airdrops are now claimable below in this thread!`;
 
-    // const tokenFrame = `https://frames.coinvise.ai/token/${tokenAddress}`;
+    const tokenFrame = `https://frames.coinvise.ai/token/${tokenAddress}`;
 
-    // const tokenCastHash = await replyNeynarCast(
-    //   message,
-    //   firstCastHash,
-    //   tokenFrame
-    // );
+    const tokenCastHash = await replyNeynarCast(
+      message,
+      firstCastHash,
+      tokenFrame
+    );
 
-    // const yapCampaignMsg = `🪂 Airdrop #1: Yap about ${tokenName} to be eligible to claim.`;
+    const yapCampaignMsg = `🪂 Airdrop #1: Yap about ${tokenName} to be eligible to claim.`;
 
-    // const yapLink = `https://frames.coinvise.ai/claim/${yapCampaignId}/${yapSlug}`;
+    const yapLink = `https://frames.coinvise.ai/claim/${yapCampaignId}/${yapSlug}`;
 
-    // const yapCastHash = await replyNeynarCast(
-    //   yapCampaignMsg,
-    //   tokenCastHash,
-    //   yapLink
-    // );
+    const yapCastHash = await replyNeynarCast(
+      yapCampaignMsg,
+      tokenCastHash,
+      yapLink
+    );
 
-    // const followCampaignMsg = `🪂 Airdrop #2: Follow and recast the main post in this thread to be eligible to claim.`;
-    // const followLink = `https://frames.coinvise.ai/claim/${followCampaignId}/${followSlug}`;
+    const followCampaignMsg = `🪂 Airdrop #2: Follow and recast the main post in this thread to be eligible to claim.`;
+    const followLink = `https://frames.coinvise.ai/claim/${followCampaignId}/${followSlug}`;
 
-    // const followCastHash = await replyNeynarCast(
-    //   followCampaignMsg,
-    //   yapCastHash,
-    //   followLink
-    // );
+    const followCastHash = await replyNeynarCast(
+      followCampaignMsg,
+      yapCastHash,
+      followLink
+    );
 
-    // console.log("All casts done:", followCastHash);
+    console.log("All casts done:", followCastHash);
 
     console.log("Webhook received! Image generated.");
     return;
@@ -624,6 +624,10 @@ async function generateTweetImage(data) {
   const profileImage = await loadImage(data.profilePic);
   ctx.drawImage(profileImage, 20, 20, 80, 80);
 
+  ctx.fillText(data.displayName, 120, 50);
+
+  ctx.fillStyle = "#000";
+  ctx.font = "bold 24px CustomFont";
   ctx.fillText(data.displayName, 120, 50);
 
   ctx.fillStyle = "#555";
